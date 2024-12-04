@@ -1,0 +1,112 @@
+{% extends 'base.j2' %}
+
+{% block title %}食材廃棄一覧{% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto; /* 追加 */
+        }
+        h1 {
+            text-align: center;
+            color: #black;
+            
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #676767;
+            color: #fff;
+        }
+        col.food {
+            width: 50%; /* 食材名の幅を調整 */
+        }
+        col.date {
+            width: 30%; /* 廃棄した日付の幅を調整 */
+        }
+        col.quantity {
+            width: 15%; /* 個数の幅を調整 */
+        }
+        .near-expiry {
+            border-bottom: 2px solid rgb(255, 0, 0); /* 過去1週間以内の場合のスタイル */
+        }
+        .expired {
+            border-bottom: 2px solid red; /* 過去の日付の場合のスタイル */
+        }
+        .expired-num {
+            color: red;
+            border-bottom: 1px solid red; /* 数字に赤線を追加 */
+        }
+    </style>
+    {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>食材廃棄一覧</h1>
+        <table>
+            <colgroup>
+                <col class="food">
+                <col class="date">
+                <col class="quantity">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>食材名</th>
+                    <th>廃棄日時</th>
+                    <th>個数</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in wasted_inventory %}
+                <tr>
+                    <td>{{ materials[item.id] }}</td>
+                    <td class="near-expiry">{{ item.created_at }}
+</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 過ぎた日付を持つセルにクラスを追加する
+        document.querySelectorAll('td').forEach(cell => {
+            const dateStr = cell.textContent.trim();
+            const date = new Date(dateStr.replace(/-/g, '/'));
+            const now = new Date();
+            const oneWeekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+
+            if (date < now) {
+                cell.classList.add('expired');
+            } else if (date <= oneWeekAgo) {
+                cell.classList.add('near-expiry');
+            }
+            
+            if (cell.classList.contains('expired')) {
+                cell.innerHTML = '<span class="expired-num">' + dateStr + '</span>';
+            }
+        });
+    </script>
+{% endblock %}

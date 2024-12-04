@@ -1,0 +1,31 @@
+{% extends 'base.j2' %}
+
+{% block title %}在庫情報一覧{% endblock %}
+
+{% block javascript %}
+    <script defer src="{{ url_for('static', filename='js/inventory_index.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <main class="inventory_index_container" style="position: relative;">
+        <h1 class="inventory_index_title">在庫一覧</h1>
+        <div class="inventory_grid">
+            <div class="inventory_grid_header inventory_grid_big">商品名</div>
+            <div class="inventory_grid_header inventory_grid_small">個数</div>
+            <div class="inventory_grid_header">有効期限</div>
+            <div class="inventory_grid_header">操作</div>
+            
+            {% for item in inventory %}
+                <div class="product_name div_height" data-id="{{ item.id }}">{{ item.product_name }}</div>
+                <div class="quantity inventory_grid_small div_height">{{ item.quantity }}</div>
+                <div class="expiration_date div_height">{{ item.expiration_date }}</div>
+                <div class="actions div_height">
+                    <a class="delete_button btn_27" onclick="adjustFrameLength(10)"  href="{{ url_for('inventory.delete', id=item.id) }}" class="delete_button">削除</a>
+                    <a class="edit_button btn_27" onclick="adjustFrameLength(10)" href="{{ url_for('inventory.edit', id=item.id) }}" class="edit_button">編集</a>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}
+
+<a href="" class="btn_27">Button</a>

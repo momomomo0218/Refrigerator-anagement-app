@@ -1,0 +1,30 @@
+{% extends 'base.j2' %}
+
+{% block title %}在庫情報編集{% endblock %}
+
+{% block javascript %}
+    <script defer src="{{ url_for('static', filename='js/menu.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <main class="add_inventory_container">
+        <h1 class="add_inventory_title">在庫情報編集</h1>
+        <form class='add_inventory_form' action="{{ url_for('inventory.edit', inventory_id=form.id) }}" method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.initial_category_id }}
+            {{  form.initial_material_id }}
+            {{ form.category_id.label }}
+            <div class="category_select_wrap">
+                {{ form.category_id() }}
+            </div>
+            {{ form.material_id.label }}
+            <div class="category_select_wrap">
+                {{ form.material_id() }}
+            </div>
+            {{ form.quantity.label }}{{ form.quantity() }}
+            {{ form.purchase_date.label }}{{ form.purchase_date() }}
+            {{ form.expiration_date.label }}{{ form.expiration_date() }}
+            <button class="form_button" type="submit">送信</button>
+        </form>
+    </main>
+{% endblock %}

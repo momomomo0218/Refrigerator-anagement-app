@@ -1,0 +1,78 @@
+
+{% extends 'base.j2' %}
+
+{% block content %}
+    <style>
+        /* 商品リストのスタイル */
+        .shopping-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .shopping-item {
+            margin-bottom: 20px; /* 下の隙間を大きくする */
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: flex; /* Flexboxレイアウトを適用 */
+            align-items: center; /* 垂直方向の中央揃え */
+            justify-content: space-between; /* 要素を等間隔で横並び */
+            flex-wrap: wrap; /* 画面幅が狭くなった場合に要素を折り返す */
+        }
+
+        .shopping-item h3,
+        .shopping-item p {
+            margin: 0;
+            font-size: 20px; /* 文字サイズを大きくする */
+        }
+
+        .shopping-item-name,
+        .shopping-item-quantity {
+            display: flex; /* Flexboxレイアウトを適用 */
+            align-items: center; /* 垂直方向の中央揃え */
+            margin-right: 10px; /* 名前と個数の間の隙間を調整 */
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px; /* ボタンのサイズを調整 */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .container {
+          max-width: 350px; /* 最大幅を設定 */
+          width: 100vw;
+          margin: 0 auto;
+        }
+    </style>
+
+    <div class="container">
+
+    <h1 style="font-family: 'Arial', sans-serif; font-size: 28px; color: #555; text-align: center; margin-bottom: 20px; font-weight: bold;">買い物リスト</h1>
+    <!-- 商品一覧へのリンク -->
+  
+    <ul class="shopping-list">
+        {% for item, name in shopping_items %}
+            <li class="shopping-item">
+                <div class="shopping-item-name">
+                    <h3>{{ name }}</h3>
+                </div>
+                <div class="shopping-item-quantity">
+                    <p>個数: {{ item.quantity }}</p>
+                </div>
+                <form method="POST" action="{{ url_for('shopping.delete_shopping_item', item_id=item.id) }}">
+                    <button type="submit" class="delete-button">削除</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/destyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    {% block css %}{% endblock %}
+    <style>
+        <style>
+    <style>
+    <style>
+    <style>
+    .header_menu_list {
+        overflow-y: hidden; /* Hide vertical scrollbar */
+    }
+    .header_menu_list li {
+        display: inline-block; /* Display list items in a single row */
+        margin-right: 20px; /* Add space between list items */
+    }
+    /* Remove margin-right from the last item to prevent spacing */
+    .header_menu_list li:last-child {
+        margin-right: 0;
+    }
+    /* Style for form */
+    .search-form {
+        margin-top: 10px; /* Adjust top margin as needed */
+    }
+    .search-input {
+        margin-right: 10px; /* Add space between input fields */
+        border: 1px solid #ccc; /* Add border */
+        border-radius: 5px; /* Add border radius */
+        padding: 5px; /* Add padding */
+        width: calc(85% - 10px); /* Set width to 85% of the container width minus the margin */
+    }
+    .header {
+    position: relative;
+    }
+
+    /* ハンバーガーメニューが開かれたときのスタイル */
+    .header_menu_list.open {
+    top: 8rem; /* 上にずらす距離を調整 */
+    }
+
+    /* 通常のメニューリストのスタイル */
+    .header_menu_list {
+    position: absolute;
+    height: 100vh;
+    width: 100vh;
+    top: 4rem; /* 上部からの距離を調整 */
+    left: 50px; /* 左端からの距離を調整 */
+    width: calc(100% - 100px); /* 左右の余白を考慮して幅を調整 */
+    z-index: 1; /* 必要に応じて調整 */
+    background-color: white; /* 必要に応じて調整 */
+    }
+
+
+    /* Style for labels */
+    .search-label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    /* Style for search text */
+    .search-text {
+        font-size: 30px; /* Increase font size */
+    }
+</style>
+    <script defer src="{{ url_for('static', filename='js/common.js') }}"></script>
+    {% block javascript %}{% endblock %}
+</head>
+<body>
+<header class="header">
+    <span class="header_logo">食材管理</span>
+    <nav class="header_nav">
+        <button id="hamburger">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
+        <ul class="header_menu_list">
+            <li><a href="{{ url_for('inventory.add') }}">在庫入力</a></li>
+            
+            <!-- Discarded Ingredients -->
+            <li><a href="{{ url_for('wasted.index') }}">食材廃棄</a></li>
+            <!-- Meal Plans -->
+            <li><a href="{{ url_for('menus.add_menu') }}">献立</a></li>
+            <!-- Shopping List -->
+            <li><a href="{{ url_for('shopping.index') }}">買い物リスト</a></li>
+            <li><a href="{{ url_for('inventory.index') }}">在庫一覧</a></li>
+            <li><a href="{{ url_for('users.help_msg') }}">ヘルプ</a></li>
+            <li class="header_logout"><a href="{{ url_for('users.logout') }}">ログアウト</a></li>
+            <!-- Search form -->
+            <form class="search-form" action="/search" method="GET">
+                <span class="search-text">検索</span>
+                <label class="search-label" for="category">カテゴリー</label>
+                <input type="text" class="search-input" id="category" name="category" placeholder="カテゴリー">
+                <label class="search-label" for="query">文字列</label>
+                <input type="text" class="search-input" id="query" name="query" placeholder="文字列" style="border: 1px solid #ccc; border-radius: 5px; padding: 5px;">
+            </form>
+        </ul>
+    </nav>
+</header>
+{% block content %}{% endblock %}
+</body>
+</html>

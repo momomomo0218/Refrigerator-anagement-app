@@ -1,0 +1,34 @@
+{% extends 'base.j2' %}
+{% block title %}使い方{% endblock %}
+{% block css %}
+    <style>
+        p {
+            margin-bottom: 1rem;
+            padding: 1rem
+        }
+        span {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .container {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border: 1px solid #e9ecef;
+            border-radius: 0.3rem;
+            background-color: #f8f9fa;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <p>当アプリケーションの主な利用手順は、次のとおりです：</p>
+        <span>サインアップ</span><br><p>まず初めに、必要な情報を入力してアカウントを作成します。</p>
+        <span>ログイン</span><br><p>サインアップが完了次第、アカウント情報を使用してログインします。ログイン時に「次回からのログインを省略」オプションを選択することで、次回からの手間を省くことができます。</p>
+        <span>カテゴリ入力</span><br><p>ログイン後、在庫品を整理するためのカテゴリを大雑把に入力します。これは後ほど在庫の管理に役立ちます。</p>
+        <span>在庫入力</span><br><p>具体的な在庫項目を入力します。ここでは商品名、数量、期限等の詳細を指定します。</p>
+        <span>期限管理</span><br><p>入力した項目は期限により色分けされます。期限が近づいてきた項目にはオレンジ色の線が表示され、期限切れの項目には赤色の線が表示されます。これにより、期限が近い項目や期限切れの項目を一目で確認することができます。</p>
+        <p>この手順により、在庫管理を効率的にかつ簡単に行うことができます。</p>
+    </div>
+{% endblock %}

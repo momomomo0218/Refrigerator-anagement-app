@@ -1,0 +1,34 @@
+{% extends "base.j2" %}
+
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class='flashes'> {{ messages[0] }}
+            {% endif %}
+        {% endwith %}
+        <div class="login_signup_container">
+            <h2>ログイン</h2>
+            <form action="{{ url_for('users.login') }}" method="post">
+                {{ form.hidden_tag() }}
+                <div class="account_part">
+                    {{ form.username.label() }}
+                    {{ form.username(class='account_input') }}
+                </div>
+                <div class="password_part">
+                    {{ form.password.label() }}
+                    {{ form.password(class='password_input') }}
+                </div>
+                <div class="remember_me_part">
+                    {{ form.remember_me.label() }}{{ form.remember_me() }}
+                </div>
+                <p class="remember_me_info">デバイスを共用する際はチェックを入れないでください。</p>
+                <button type="submit" class="login_signup_button">送信</button>
+            </form>
+            <p class="login_signup_info">アカウントをお持ちでないですか？今すぐ <a href="{{ url_for('users.signup') }}">登録</a>
+                しましょう</p>
+        </div>
+    </main>
+{% endblock %}

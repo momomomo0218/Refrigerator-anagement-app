@@ -1,0 +1,117 @@
+{% extends 'base.j2' %}
+
+{% block javascript %}
+{#    <script defer src="{{ url_for('static', filename='js/menu.js') }}"></script>#}
+{% endblock %}
+
+{% block css %}
+    <style>
+        /* Add these lines to your dedicated CSS file */
+        /* Add these lines to your dedicated CSS file */
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+        }
+
+        #add-menu-form {
+            width: 100%;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0px 0px 20px 0px rgba(48, 50, 50, 0.3);
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 40px;
+        }
+
+        #add-menu-form label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #add-menu-form input, #add-menu-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            font-size: 14px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        #add-menu-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 14px;
+            background-color: #5D3F6A;
+            cursor: pointer;
+            box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        #add-menu-form button:hover {
+            background-color: #9D6799;
+        }
+
+        #add-menu-form input:focus,
+        #add-menu-form button:focus {
+            outline: none;
+            box-shadow: 0px 0px 5px 0px rgba(93, 63, 106, 0.5);
+        }
+
+        #add-menu-form button:active {
+            background-color: #5D3F6A;
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        li {
+            padding: 1rem;
+            border: 1px solid #000;
+            border-radius: 0.5rem;
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.2rem;
+            {#margin-bottom: 1rem;#}
+        }
+
+        .container {
+            width: 350px;
+            margin: 0 auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form id="add-menu-form" action="{{ url_for('menus.add_menu') }}" method="post">
+            {{ form.menu_name.label }} {{ form.menu_name }}
+            <button type="submit">登録</button>
+        </form>
+        <h1>メニューリスト</h1>
+        <ul>
+            {% for menu in menus %}
+                <a href="{{ url_for('menus.edit_menu', menu_id=menu.id) }}"><li>{{ menu.name }}</li></a>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

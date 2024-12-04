@@ -1,0 +1,45 @@
+{% extends "base.j2" %}
+
+{% block title %}サインアップ{% endblock %}
+
+{% block content %}
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class='flashes'> {{ messages[0] }} </p>
+            {% endif %}
+        {% endwith %}
+        <div class="login_signup_container">
+            <h2>ユーザー登録</h2>
+            <form action="{{ url_for('users.signup') }}" method="post">
+                {{ form.hidden_tag() }}
+
+                <div class="account_part">
+                    {{ form.username.label }}{{ form.username(class='account_input') }}
+                    {% for error in form.username.errors %}
+                        <span class="account_error_info">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+
+                <div class="password_part">
+                    {{ form.password.label }}{{ form.password(class='password_input') }}
+                    {% for error in form.password.errors %}
+                        <span class="password_error_info">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="login_signup_button">送信</button>
+                <p class="login_signup_info">既にアカウントを作成されている方は、こちらから <a
+                        href="{{ url_for('users.login') }}">ログイン</a></p>
+            </form>
+            <h2 style="font-size: 1.3rem; font-weight: bold; margin-top: 3rem; color: red;">重要なお知らせ：</h2>
+            <p>
+                当アプリケーションは現在、テスト運用中であり、さまざまな機能の改善と最適化を試みています。その過程で全てのデータを一時的にクリアする作業を行う予定となっています。</p>
+            <p>
+                具体的には、5月19日に全てのユーザーデータを削除する予定です。削除作業後は新たなデータを保存することが可能となる予定ですが、具体的なサービスの再開日や後続の運用については現段階では未定となっています。</p>
+            <p>
+                データクリアに伴い、現在保存されている全ての情報（アカウント情報、在庫情報など）は削除されますので、重要な情報は適時バックアップしていただくようお願い申し上げます。</p>
+            <p>ユーザーの皆様にはご不便をお掛けしますが、何卒ご理解いただけますようお願い申し上げます。</p>
+        </div>
+    </main>
+{% endblock %}

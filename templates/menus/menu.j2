@@ -1,0 +1,64 @@
+{% extends 'base.j2' %}
+
+{% block css %}
+   <style>
+    h1 {
+        font-size: 1rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    h3 {
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+    }
+    .container {
+        width: 350px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    li {
+        {#padding: 1rem;#}
+        border: 1px solid #000;
+        border-radius: 0.5rem;
+        width: 350px;
+        text-align: center;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    .name {
+        display: block;
+        width: 300px;
+    }
+    .quantity {
+        display: block;
+        width: 50px;
+    }
+   </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>メニュー</h1>
+        <h2>{{ menu.name }}</h2>
+        <h3>材料</h3>
+        {% for material in menu_materials %}
+            <ul>
+                <li><span class="name">{{ material.name }}</span><span class="quantity">{{ material.quantity  }}個</span></li>
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

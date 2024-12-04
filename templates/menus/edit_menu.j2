@@ -1,0 +1,149 @@
+{% extends 'base.j2' %}
+
+{% block javascript %}
+    <script defer src="{{ url_for('static', filename='js/menu.js') }}"></script>
+{% endblock %}
+
+{% block css %}
+    <style>
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            text-decoration: underline;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 2rem;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+        }
+
+        #category_select, #material_select {
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            margin-bottom: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 350px;
+            margin: 0 auto;
+        }
+
+        label {
+            margin-top: 10px;
+            font-size: .9rem;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        li {
+        {#padding: 1rem;#} border: 1px solid #000;
+            border-radius: 0.5rem;
+            width: 350px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .name {
+            display: block;
+            width: 300px;
+        }
+
+        .quantity {
+            display: block;
+            width: 50px;
+        }
+
+        .container {
+            width: 350px;
+            margin: 0 auto;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ menu.name }}</h1>
+        <h2>材料を追加します</h2>
+        <form method="POST" action="/menus/{{ menu.id }}/edit">
+            <input type="hidden" value="{{ menu.id }}" id="menu_id">
+            {{ form.category_id.label }}{{ form.category_id }}
+            {{ form.menu_material_id.label }}{{ form.menu_material_id }}
+            {{ form.quantity.label }}{{ form.quantity }}
+            <button type="submit">追加</button>
+        </form>
+        <h2>材料</h2>
+        {% for material in menu_materials %}
+            <ul>
+                <li class="material" data-material_id="{{ material.id }}"><span
+                        class="name">{{ material.name }}</span><span class="quantity">{{ material.quantity }}個</span>
+                        <button class="add-to-shopping-list-btn" data-material_id="{{ material.id }}">買い物リストに追加</button>
+                </li>
+            </ul>
+            <div id="material-{{ material.id }}"></div>
+        {% endfor %}
+    </div>
+    <script>
+        const materialList = document.querySelectorAll('.material');
+        materialList.forEach(material => {
+            const material_id = material.dataset.material_id;
+            const menu_id = document.getElementById('menu_id').value;
+            fetch(`/menus/exist_material/${menu_id}/${material_id}`)
+                .then(response => response.json())
+                .then(items => {
+                    const material_div = document.getElementById(`material-${material_id}`);
+                    for (let item of items) {
+                        let content = ''
+                        content = item['material_quantity'] + '個'
+                        let dt = new Date(item['expiration_date']);
+                        let dtJST = dt.toLocaleString("ja-JP", {timeZone: "Asia/Tokyo"});
+                        let formatter = new Intl.DateTimeFormat("ja-JP", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                        });
+                        let dtStr = formatter.format(new Date(dtJST));
+                        content = '在庫: 消費期限' + dtStr + ' ' + content
+                        const p = document.createElement('p');
+                        p.textContent = content;
+                        p.style.marginTop = '-1rem'
+                        p.style.marginBottom = '1rem'
+                        p.style.textAlign = 'right'
+                        material_div.appendChild(p);
+                    }
+                })
+        })
+
+    </script>
+{% endblock %}
